@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       theWord: null,
+      words: ["chleb", "baner", "lizak", "lody", "informatyka", "magia"],
       keyCodes: {
         65: 'a',
         66: 'b',
@@ -52,20 +53,8 @@ export default {
     };
   },
   methods: {},
-  mounted() {
-    const proxyurl = 'https://cors-anywhere.herokuapp.com/';
-    const url = 'https://random-word-api.herokuapp.com/key?'; // site that doesn’t send Access-Control-*
-    axios.get(proxyurl + url).then((response) => {
-      axios
-        .get(
-          `https://random-word-api.herokuapp.com/word?key=${
-            response.data
-          }&number=1`,
-        )
-        .then((response) => {
-          this.theWord = response.data[0];
-        });
-    });
+  mounted() { 
+    this.theWord = this.words[Math.floor(Math.random() * this.words.length)]
 
     document.addEventListener('keyup', (event) => {
       bus.$emit('keyPress', this.keyCodes[event.which]);
